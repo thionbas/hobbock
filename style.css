@@ -1,7 +1,6 @@
 .preview-wrapper {
     width: 100%;
     max-width: 500px;
-    /* A6 Format: 148.5 x 105 mm */
     aspect-ratio: 1485 / 1050; 
     background: white;
     border: 1px solid #333;
@@ -18,7 +17,6 @@
     font-family: Helvetica, Arial, sans-serif;
 }
 
-/* Zone 1: Oben (Nummer/Bezeichnung) */
 .zone-top {
     flex: 1.2;
     display: flex;
@@ -30,7 +28,6 @@
     padding-bottom: 10px;
 }
 
-/* Zone 2: Mitte (GHS Symbole) */
 .zone-ghs { 
     flex: 1;
     display: flex; 
@@ -39,13 +36,13 @@
     justify-content: center;
 }
 
+/* HIER: Deutlich verkleinert (von 80% auf 55%) */
 .zone-ghs img {
-    height: 80%;
+    height: 55%; 
     width: auto;
     object-fit: contain;
 }
 
-/* Zone 3: Dazwischen (Signalwort) */
 .zone-signal { 
     flex: 0.6;
     display: flex;
@@ -58,7 +55,6 @@
     text-transform: uppercase;
 }
 
-/* Zone 4: Unten (Sonstiges) */
 .zone-bot { 
     flex: 0.8;
     display: flex;
