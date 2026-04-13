@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOBBOCK ETIKETTEN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100 text-gray-900 font-sans min-h-screen">
+
+    <header class="bg-[#064e3b] p-5 shadow-md">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-black text-white tracking-widest uppercase">HOBBOCK (4x A6)</h1>
+            <a href="https://thionbas.github.io/printerapp" class="text-white border border-white px-4 py-2 rounded hover:bg-white hover:text-[#064e3b] transition font-bold uppercase text-sm tracking-wider">← ZURÜCK</a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-2 gap-10 mt-6">
+        
+        <section class="bg-white p-8 rounded-lg shadow-xl border border-gray-200">
+            <h2 class="text-xl font-bold border-b pb-2 mb-6 uppercase text-gray-700">Konfiguration</h2>
+            
+            <div class="space-y-5">
+                <div>
+                    <label class="block text-sm font-bold mb-1 text-gray-600 uppercase">Hintergrundfarbe</label>
+                    <select id="bgColor" class="w-full p-3 border-2 rounded-md bg-gray-50 font-bold outline-none focus:border-[#064e3b]">
+                        <option value="white">Weiß (Neutral)</option>
+                        <option value="yellow">Gelb (Gase)</option>
+                        <option value="red">Rot (Dampf/Brand)</option>
+                        <option value="green">Grün (Wasser)</option>
+                        <option value="blue">Blau (Luft)</option>
+                        <option value="brown">Braun (Brennbare)</option>
+                        <option value="violet">Violett (Säuren/Laugen)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold mb-1 text-gray-600 uppercase">1. Oben (Nummer / Bezeichnung)</label>
+                    <input type="text" id="topText" class="w-full p-3 border-2 rounded-md font-bold outline-none focus:border-[#064e3b]" placeholder="z.B. 101-A">
+                </div>
+
+                <div>
+                    <label class="flex justify-between text-sm font-bold mb-1 text-gray-600 uppercase">
+                        <span>Schriftgröße (Oben)</span>
+                        <span id="fontSizeVal" class="text-[#064e3b]">40</span>
+                    </label>
+                    <input type="range" id="fontSize" min="20" max="100" value="40" class="w-full cursor-pointer accent-[#064e3b]">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold mb-2 text-gray-600 uppercase">2. Mitte (GHS Symbole, Max. 5)</label>
+                    <div id="ghsPicker" class="grid grid-cols-5 gap-2 bg-gray-50 p-3 rounded-md border-2"></div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold mb-1 text-gray-600 uppercase">3. Signalwort</label>
+                    <select id="signal" class="w-full p-3 border-2 rounded-md font-bold outline-none focus:border-[#064e3b]">
+                        <option value="">Kein Signalwort</option>
+                        <option value="ACHTUNG">ACHTUNG</option>
+                        <option value="GEFAHR">GEFAHR</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold mb-1 text-gray-600 uppercase">4. Unten (Sonstiges)</label>
+                    <input type="text" id="botText" class="w-full p-3 border-2 rounded-md font-bold outline-none focus:border-[#064e3b]" placeholder="z.B. Nur für interne Zwecke">
+                </div>
+            </div>
+
+            <button id="pdfBtn" class="w-full bg-[#064e3b] text-white py-4 rounded-md font-black text-2xl hover:bg-green-800 transition-all shadow-md mt-8 tracking-widest uppercase">
+                4 SCHILDER DRUCKEN (A4)
+            </button>
+        </section>
+
+        <section class="flex flex-col items-center">
+            <span class="text-sm font-bold text-gray-400 mb-3 uppercase tracking-widest">Einzel-Etikett Vorschau (A6)</span>
+            <div class="preview-wrapper shadow-2xl">
+                <div id="previewCard" class="label-box bg-white">
+                    <div id="pTop" class="zone-top">NUMMER</div>
+                    <div id="pGhs" class="zone-ghs"></div>
+                    <div id="pSignal" class="zone-signal"></div>
+                    <div id="pBot" class="zone-bot">Sonstiges</div>
+                </div>
+            </div>
+            <p class="mt-6 text-xs text-gray-500 text-center uppercase">Das PDF generiert automatisch 4 dieser Schilder auf einem A4 Bogen (Querformat).</p>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
