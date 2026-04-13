@@ -2,7 +2,6 @@ const { jsPDF } = window.jspdf;
 
 let selectedGhs = [];
 
-// GHS Picker generieren
 const ghsPicker = document.getElementById('ghsPicker');
 for (let i = 1; i <= 9; i++) {
     const id = i.toString().padStart(3, '0');
@@ -14,7 +13,7 @@ for (let i = 1; i <= 9; i++) {
             selectedGhs = selectedGhs.filter(g => g !== id);
             div.classList.remove('bg-green-100', 'border-green-600');
         } else {
-            if (selectedGhs.length >= 5) return; // Maximal 5 auf A6
+            if (selectedGhs.length >= 5) return;
             selectedGhs.push(id);
             div.classList.add('bg-green-100', 'border-green-600');
         }
@@ -39,7 +38,6 @@ function updatePreview() {
     document.getElementById('pSignal').innerText = signal;
     document.getElementById('pBot').innerText = botText;
 
-    // Vorschau-Skalierung für A6 (Breite: 148.5mm)
     const previewWidth = card.offsetWidth;
     const scaleFactor = previewWidth / 148.5;
     document.getElementById('pTop').style.fontSize = (fontSize * 0.3527 * scaleFactor) + "px";
@@ -57,7 +55,6 @@ document.querySelectorAll('input, select').forEach(el => el.addEventListener('in
 
 document.getElementById('pdfBtn').onclick = () => {
     try {
-        // A4 im Querformat (Landscape)
         const doc = new jsPDF({ orientation: 'l', unit: 'mm', format: 'a4' });
         
         const color = document.getElementById('bgColor').value;
@@ -66,7 +63,6 @@ document.getElementById('pdfBtn').onclick = () => {
         const botText = document.getElementById('botText').value;
         const fontSize = parseInt(document.getElementById('fontSize').value);
 
-        // Harte RGB Werte
         const colors = { 
             white:[255,255,255], yellow:[253,224,71], red:[239,68,68], 
             brown:[120,53,15], green:[34,197,94], blue:[59,130,246], violet:[168,85,247] 
@@ -74,50 +70,43 @@ document.getElementById('pdfBtn').onclick = () => {
 
         const isDark = ['red', 'blue', 'brown', 'violet'].includes(color);
         const textColor = isDark ? 255 : 0;
-
-        // Wir drucken 4 Schilder (A6) auf das A4 Querformat
-        // Schild 0: Oben Links (x=0, y=0)
-        // Schild 1: Oben Rechts (x=148.5, y=0)
-        // Schild 2: Unten Links (x=0, y=105)
-        // Schild 3: Unten Rechts (x=148.5, y=105)
         
         for (let i = 0; i < 4; i++) {
             const x = (i % 2) * 148.5;
             const y = Math.floor(i / 2) * 105;
-            const cx = x + 74.25; // Horizontale Mitte des A6 Schildes
+            const cx = x + 74.25; 
 
-            // 1. Hintergrund zeichnen
+            // 1. Hintergrund
             doc.setFillColor(...colors[color]);
             doc.rect(x, y, 148.5, 105, 'F');
             
-            // Textfarbe setzen
             doc.setTextColor(textColor);
             
-            // 2. Text Oben (Nummer/Bezeichnung)
+            // 2. Text Oben
             doc.setFontSize(fontSize);
             doc.setFont("helvetica", "bold");
-            // y + 35 -> Etwas oberhalb der Mitte
             doc.text(topText.toUpperCase(), cx, y + 35, { align: 'center', maxWidth: 135 });
 
             // 3. Mitte (GHS Symbole)
-            // Icon-Größe = 18mm, Abstand = 4mm
-            const iconSize = 18;
+            // HIER: Icon-Größe von 18 auf 12 reduziert
+            const iconSize = 12;
             const gap = 4;
             const totalGhsWidth = (selectedGhs.length * iconSize) + ((selectedGhs.length - 1) * gap);
             const startX = cx - (totalGhsWidth / 2);
             
             selectedGhs.forEach((id, g) => {
-                doc.addImage(`ghs_${id}.png`, 'PNG', startX + (g * (iconSize + gap)), y + 45, iconSize, iconSize);
+                // y-Position leicht nach unten korrigiert (y + 48), um den gewonnenen Platz auszugleichen
+                doc.addImage(`ghs_${id}.png`, 'PNG', startX + (g * (iconSize + gap)), y + 48, iconSize, iconSize);
             });
 
-            // 4. Dazwischen (Signalwort)
+            // 4. Signalwort
             if (signal) {
                 doc.setFontSize(22);
                 doc.setFont("helvetica", "bolditalic");
                 doc.text(signal, cx, y + 75, { align: 'center' });
             }
 
-            // 5. Unten (Sonstiges Textfeld)
+            // 5. Unten (Sonstiges)
             if (botText) {
                 doc.setFontSize(14);
                 doc.setFont("helvetica", "bold");
@@ -132,5 +121,4 @@ document.getElementById('pdfBtn').onclick = () => {
     }
 };
 
-// Initial rendern
 updatePreview();
