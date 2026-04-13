@@ -1,0 +1,80 @@
+.preview-wrapper {
+    width: 100%;
+    max-width: 500px;
+    /* A6 Format: 148.5 x 105 mm */
+    aspect-ratio: 1485 / 1050; 
+    background: white;
+    border: 1px solid #333;
+    overflow: hidden;
+}
+
+.label-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    box-sizing: border-box;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+/* Zone 1: Oben (Nummer/Bezeichnung) */
+.zone-top {
+    flex: 1.2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-weight: 900;
+    text-align: center;
+    line-height: 1.1;
+    padding-bottom: 10px;
+}
+
+/* Zone 2: Mitte (GHS Symbole) */
+.zone-ghs { 
+    flex: 1;
+    display: flex; 
+    gap: 10px; 
+    align-items: center; 
+    justify-content: center;
+}
+
+.zone-ghs img {
+    height: 80%;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Zone 3: Dazwischen (Signalwort) */
+.zone-signal { 
+    flex: 0.6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center; 
+    font-weight: 900; 
+    font-style: italic; 
+    font-size: 1.5rem;
+    text-transform: uppercase;
+}
+
+/* Zone 4: Unten (Sonstiges) */
+.zone-bot { 
+    flex: 0.8;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-align: center;
+    padding-top: 10px;
+}
+
+/* Farblogik */
+.bg-white { background-color: #ffffff; color: #000; }
+.bg-yellow { background-color: #fde047; color: #000; }
+.bg-red { background-color: #ef4444; color: #fff; }
+.bg-brown { background-color: #78350f; color: #fff; }
+.bg-green { background-color: #22c55e; color: #000; }
+.bg-blue { background-color: #3b82f6; color: #fff; }
+.bg-violet { background-color: #a855f7; color: #fff; }
