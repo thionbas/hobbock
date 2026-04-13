@@ -76,47 +76,44 @@ document.getElementById('pdfBtn').onclick = () => {
             const y = Math.floor(i / 2) * 105;
             const cx = x + 74.25; 
 
-            // 1. Hintergrund
             doc.setFillColor(...colors[color]);
             doc.rect(x, y, 148.5, 105, 'F');
-            
             doc.setTextColor(textColor);
             
-            // 2. Text Oben
+            // Text Oben
             doc.setFontSize(fontSize);
             doc.setFont("helvetica", "bold");
             doc.text(topText.toUpperCase(), cx, y + 35, { align: 'center', maxWidth: 135 });
 
-            // 3. Mitte (GHS Symbole)
-            // HIER: Icon-Größe von 18 auf 12 reduziert
-            const iconSize = 12;
-            const gap = 4;
+            // GHS Symbole - JETZT NUR NOCH 8mm
+            const iconSize = 8; 
+            const gap = 3;
             const totalGhsWidth = (selectedGhs.length * iconSize) + ((selectedGhs.length - 1) * gap);
             const startX = cx - (totalGhsWidth / 2);
             
             selectedGhs.forEach((id, g) => {
-                // y-Position leicht nach unten korrigiert (y + 48), um den gewonnenen Platz auszugleichen
-                doc.addImage(`ghs_${id}.png`, 'PNG', startX + (g * (iconSize + gap)), y + 48, iconSize, iconSize);
+                // y + 42 sorgt für eine kompaktere Platzierung
+                doc.addImage(`ghs_${id}.png`, 'PNG', startX + (g * (iconSize + gap)), y + 42, iconSize, iconSize);
             });
 
-            // 4. Signalwort
+            // Signalwort
             if (signal) {
-                doc.setFontSize(22);
+                doc.setFontSize(20);
                 doc.setFont("helvetica", "bolditalic");
-                doc.text(signal, cx, y + 75, { align: 'center' });
+                doc.text(signal, cx, y + 65, { align: 'center' });
             }
 
-            // 5. Unten (Sonstiges)
+            // Sonstiges
             if (botText) {
                 doc.setFontSize(14);
                 doc.setFont("helvetica", "bold");
-                doc.text(botText, cx, y + 90, { align: 'center', maxWidth: 135 });
+                doc.text(botText, cx, y + 85, { align: 'center', maxWidth: 135 });
             }
         }
         
-        doc.save("Hobbock_A4_Bogen.pdf");
+        doc.save("Hobbock_Label_8mm_GHS.pdf");
     } catch (error) {
-        alert("Fehler beim Drucken. Bitte prüfe die Konsole.");
+        alert("Fehler beim Drucken.");
         console.error(error);
     }
 };
